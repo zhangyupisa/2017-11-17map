@@ -1,0 +1,44 @@
+setwd("F:\\Doctor\\R语言学习\\自学\\2017-11-17R语言学习之道：罗马非一日建成")
+# MAP USA (STATES)
+install.packages("rworldmap")
+install.packages("tidyverse")
+install.packages("tibble")
+library(magrittr)
+library(rworldmap)
+library(ggplot2)
+#以上包都合并在下包里
+library(tidyverse)
+
+
+map_data("usa") %>% 
+  ggplot(aes(x = long, y = lat, group = group)) +
+  geom_polygon()
+#color = "#aaaaaa", size = .2为后添加上去以加上州际分割线
+map_data("state") %>% 
+  ggplot(aes(x = long, y = lat, group = group)) +
+  geom_polygon(color = "#aaaaaa", size = .2)
+
+# MAP CALIFORNIA, NEVADA, OREGON, WASHINGTON
+# - to do this, we're using dplyr::filter()
+# ... otherwise, it's almost exactly the same as the previous code
+map_data("state") %>% 
+  filter(region %in% c("california","nevada","oregon","washington")) %>%
+  ggplot(aes(x = long, y = lat, group = group)) +
+  geom_polygon()
+# MAP CALIFORNIA, NEVADA, OREGON, WASHINGTON
+#  (Counties)
+map_data("county") %>% 
+  filter(region %in% c("california","nevada","oregon","washington")) %>%
+  ggplot(aes(x = long, y = lat, group = group)) +
+  geom_polygon(color = "#aaaaaa", size = .2)
+
+# MAP WORLD
+map_data("world") %>%
+  ggplot(aes(x = long, y = lat, group = group)) +
+  geom_polygon()
+
+# MAP JAPAN
+map_data("world") %>%
+  filter(region == 'Japan') %>%
+  ggplot(aes(x = long, y = lat, group = group)) +
+  geom_polygon()
